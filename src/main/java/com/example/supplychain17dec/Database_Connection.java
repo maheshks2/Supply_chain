@@ -27,15 +27,15 @@ public class Database_Connection {
         }
         return null;
     }
-    public static void main(String[] args){
-        Database_Connection dbcon=new Database_Connection();
-        ResultSet rs=dbcon.getQueryTable("SELECT EmailId,first_name FROM CUSTOMER");
-        try {
-            while (rs.next()){
-                System.out.println(rs.getString("EmailId")+" "+ rs.getString("first_name"));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args){
+//        Database_Connection dbcon=new Database_Connection();
+//        ResultSet rs=dbcon.getQueryTable("SELECT EmailId,first_name FROM CUSTOMER");
+//        try {
+//            while (rs.next()){
+//                System.out.println(rs.getString("EmailId")+" "+ rs.getString("first_name"));
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 }

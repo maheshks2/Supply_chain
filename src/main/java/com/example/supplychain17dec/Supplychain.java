@@ -19,6 +19,7 @@ public class Supplychain extends Application {
 
     public static final int width=700, height=600,header=50;
     Pane bodyPane=new Pane();
+    Login login =new Login();
     private GridPane HeaderBar(){
         TextField SearchText=new TextField();
         Button SearchButton=new Button("Search");
@@ -44,7 +45,11 @@ public class Supplychain extends Application {
            public void handle(ActionEvent actionEvent) {
             String email=emailText.getText();
             String password=passwordfield.getText();
-            messageLabel.setText(email + "$$" +password);
+//            messageLabel.setText(email + "$$" +password);
+            if(login.customerlogin(email,password))
+                messageLabel.setText("Login Sucessfull");
+            else
+                messageLabel.setText("Login Failed");
            }
        });
        GridPane gridpane=new GridPane();
