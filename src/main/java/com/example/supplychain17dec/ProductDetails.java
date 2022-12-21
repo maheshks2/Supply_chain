@@ -21,15 +21,43 @@ public class ProductDetails {
         TableColumn price=new TableColumn("price");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        ObservableList<Product> data= FXCollections.observableArrayList();
-        data.add(new Product(1,"Lenovo",8439));
-        data.add(new Product(1,"HP",85439));
+//        ObservableList<Product> data= FXCollections.observableArrayList();
+//        data.add(new Product(1,"Lenovo",8439));
+//        data.add(new Product(1,"HP",85439));
+        ObservableList<Product> products=Product.getAllProducts();
         productTable=new TableView<>();
-        productTable.setItems(data);
+        productTable.setItems(products);
         productTable.getColumns().addAll(id,name,price);
+        productTable.setMinSize(Supplychain.width,Supplychain.height);
+        productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         Pane tablePane=new Pane();
+        tablePane.setStyle("-fx-background-color: #C0C0C0");
+        tablePane.setMinSize(Supplychain.width,Supplychain.height);
         tablePane.getChildren().add(productTable);
         return tablePane;
     }
 
+    public Pane getProductsByName(String productName){
+        TableColumn id=new TableColumn("id");
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn name=new TableColumn("name");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn price=new TableColumn("price");
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+//        ObservableList<Product> data= FXCollections.observableArrayList();
+//        data.add(new Product(1,"Lenovo",8439));
+//        data.add(new Product(1,"HP",85439));
+        ObservableList<Product> products=Product.getProductsByName(productName);
+        productTable=new TableView<>();
+        productTable.setItems(products);
+        productTable.getColumns().addAll(id,name,price);
+        productTable.setMinSize(Supplychain.width,Supplychain.height);
+        productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        Pane tablePane=new Pane();
+        tablePane.setStyle("-fx-background-color: #C0C0C0");
+        tablePane.setMinSize(Supplychain.width,Supplychain.height);
+        tablePane.getChildren().add(productTable);
+        return tablePane;
+    }
 }

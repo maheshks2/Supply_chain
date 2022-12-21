@@ -19,11 +19,24 @@ public class Supplychain extends Application {
 
     public static final int width=700, height=600,header=50;
     Pane bodyPane=new Pane();
+    //public static int dogyWidth, bodyHeight;
     Login login =new Login();
     ProductDetails productdetails= new ProductDetails();
+   // Button globalLogin;
     private GridPane HeaderBar(){
         TextField SearchText=new TextField();
         Button SearchButton=new Button("Search");
+        SearchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String productName=SearchText.getText();
+
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(productdetails.getProductsByName(productName));
+            }
+        });
+        //globalLogin=new Button("Login");
+        //globalLogin
         GridPane gridpane=new GridPane();
         gridpane.setMinSize(bodyPane.getMinWidth(),header-10);
         gridpane.setVgap(5);
@@ -32,6 +45,7 @@ public class Supplychain extends Application {
         gridpane.setAlignment(Pos.CENTER);
         gridpane.add(SearchText,0,0);
         gridpane.add(SearchButton,1,0);
+        //gridpane.add(globalLogin,2,0);
         return gridpane;
     }
    private GridPane loginPage(){
