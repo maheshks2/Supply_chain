@@ -60,4 +60,13 @@ public class ProductDetails {
         tablePane.getChildren().add(productTable);
         return tablePane;
     }
+    public Product getSelectedProduct(){
+        try {
+            Product selectProduct=productTable.getSelectionModel().getSelectedItem();
+            return selectProduct;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

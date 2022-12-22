@@ -5,10 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -22,7 +19,9 @@ public class Supplychain extends Application {
     //public static int dogyWidth, bodyHeight;
     Login login =new Login();
     ProductDetails productdetails= new ProductDetails();
-   // Button globalLogin;
+   Button globalLogin;
+   Label customerEmail=null;
+   String customerName=null;
     private GridPane HeaderBar(){
         TextField SearchText=new TextField();
         Button SearchButton=new Button("Search");
@@ -35,8 +34,17 @@ public class Supplychain extends Application {
                 bodyPane.getChildren().add(productdetails.getProductsByName(productName));
             }
         });
-        //globalLogin=new Button("Login");
-        //globalLogin
+        globalLogin=new Button("Login");
+        globalLogin.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(loginPage());
+               // globalLogin.setDisable(true);
+            }
+        });
+
+        customerEmail=new Label("Welcome User");
         GridPane gridpane=new GridPane();
         gridpane.setMinSize(bodyPane.getMinWidth(),header-10);
         gridpane.setVgap(5);
@@ -45,7 +53,8 @@ public class Supplychain extends Application {
         gridpane.setAlignment(Pos.CENTER);
         gridpane.add(SearchText,0,0);
         gridpane.add(SearchButton,1,0);
-        //gridpane.add(globalLogin,2,0);
+        gridpane.add(globalLogin,2,0);
+        gridpane.add(customerEmail,3,0);
         return gridpane;
     }
    private GridPane loginPage(){
@@ -61,8 +70,14 @@ public class Supplychain extends Application {
             String email=emailText.getText();
             String password=passwordfield.getText();
 //            messageLabel.setText(email + "$$" +password);
-            if(login.customerlogin(email,password))
+            if(login.customerlogin(email,password)) {
                 messageLabel.setText("Login Sucessfull");
+                customerName=email;
+                globalLogin.setDisable(true);
+                customerEmail.setText("Welcome:" + customerName );
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(productdetails.getAllProducts());
+            }
             else
                 messageLabel.setText("Login Failed");
            }
@@ -83,13 +98,46 @@ public class Supplychain extends Application {
 
 
     }
+    private GridPane footerBar(){
+        //TextField SearchText=new TextField();
+        Button addToCartButton=new Button("Add to Cart");
+        Button BuyNow=new Button("Buy Now");
+        Label displayLabel=new Label("");
+        BuyNow.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Product selectedProduct =productdetails.getSelectedProduct();
+               if(Order.placeOrder(customerName,selectedProduct)){
+                    displayLabel.setText("Ordered");
+                }else
+                {
+                    displayLabel.setText("Order Failed");
+                }
+
+            }
+        });
+
+        GridPane gridpane=new GridPane();
+        gridpane.setMinSize(bodyPane.getMinWidth(),header-10);
+        gridpane.setVgap(5);
+        gridpane.setHgap(50);
+        //gridpane.setStyle("-fx-background-color: #C0C0C0");
+        gridpane.setAlignment(Pos.CENTER);
+        gridpane.setTranslateY(height+header+5);
+        gridpane.add(addToCartButton,0,0);
+        gridpane.add(BuyNow,1,0);
+        gridpane.add(displayLabel,2,0);
+//        gridpane.add(globalLogin,2,0);
+//        gridpane.add(customerEmail,3,0);
+        return gridpane;
+    }
     private Pane createContant(){
         Pane root= new Pane();
-        root.setPrefSize(width,height+header);
+        root.setPrefSize(width,height+2*header+10);
         bodyPane.setMinSize(width,height);
         bodyPane.setTranslateY(header);
         bodyPane.getChildren().addAll(productdetails.getAllProducts());
-        root.getChildren().addAll(HeaderBar(), bodyPane);
+        root.getChildren().addAll(HeaderBar(), bodyPane,footerBar());
         return root;
     }
     @Override

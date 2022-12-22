@@ -38,4 +38,13 @@ public class Database_Connection {
 //            e.printStackTrace();
 //        }
 //    }
+public int executeUpdateQuery(String query){
+    Statement statement=getStatement();
+    try {
+        return statement.executeUpdate(query);
+    } catch (Exception e){
+        e.printStackTrace();
+    }
+    return 0;
+}
 }
